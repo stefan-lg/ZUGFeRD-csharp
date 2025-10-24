@@ -369,7 +369,7 @@ namespace s2industries.ZUGFeRD
                             if (tradeAllowanceCharge.ChargePercentage.HasValue)
                             {
                                 Writer.WriteStartElement("ram", "CalculationPercent", profile: Profile.Extended); // not in XRechnung, according to CII-SR-122
-                                Writer.WriteValue(_formatDecimal(tradeAllowanceCharge.ChargePercentage.Value, 2));
+                                _writeOptionalAdaptiveValue(Writer, tradeAllowanceCharge.ChargePercentage.Value, 2, 4); // BT-X-34
                                 Writer.WriteEndElement();
                             }
                             #endregion
@@ -378,14 +378,14 @@ namespace s2industries.ZUGFeRD
                             if (tradeAllowanceCharge.BasisAmount.HasValue)
                             {
                                 Writer.WriteStartElement("ram", "BasisAmount", profile: Profile.Extended); // not in XRechnung, according to CII-SR-123
-                                Writer.WriteValue(_formatDecimal(tradeAllowanceCharge.BasisAmount.Value, 2));
+                                _writeOptionalAdaptiveValue(Writer, tradeAllowanceCharge.BasisAmount.Value, 2, 4); // BT-X-35
                                 Writer.WriteEndElement();
                             }
                             #endregion
 
                             #region ActualAmount
                             Writer.WriteStartElement("ram", "ActualAmount");
-                            Writer.WriteValue(_formatDecimal(tradeAllowanceCharge.ActualAmount, 2));
+                            _writeOptionalAdaptiveValue(Writer, tradeAllowanceCharge.ActualAmount, 2, 4); // BT-147
                             Writer.WriteEndElement();
                             #endregion
 
@@ -1363,6 +1363,24 @@ namespace s2industries.ZUGFeRD
 
             Writer.WriteEndElement(); // !ram:AdditionalReferencedDocument
         } // !_writeAdditionalReferencedDocument()
+
+        private void _writeOptionalAdaptiveValue(ProfileAwareXmlTextWriter writer, decimal? value, int numDecimals = 2, int maxNumDecimals = 4, Profile profile = Profile.Unknown)
+        {
+            if (!value.HasValue)
+            {
+                return;
+            }
+
+            decimal rounded = Math.Round(value.Value, numDecimals, MidpointRounding.AwayFromZero);
+            if (value == rounded)
+            {
+                writer.WriteValue(_formatDecimal(value.Value, numDecimals));
+            }
+            else
+            {
+                writer.WriteValue(_formatDecimal(value.Value, maxNumDecimals));
+            }
+        } // !_writeOptionalAdaptiveValue()
 
 
         private void _writeOptionalAdaptiveAmount(ProfileAwareXmlTextWriter writer, string prefix, string tagName, decimal? value, int numDecimals = 2, int maxNumDecimals = 4, bool forceCurrency = false, Profile profile = Profile.Unknown)
