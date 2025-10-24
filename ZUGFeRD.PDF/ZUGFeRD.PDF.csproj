@@ -16,7 +16,7 @@
 	<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>	
     <RootNamespace>s2industries.ZUGFeRD.PDF</RootNamespace>	
-    <Version>17.1.0</Version>	
+    <Version>17.1.1</Version>	
     <PackageReleaseNotes>17.1.0:
 * No major change
 
