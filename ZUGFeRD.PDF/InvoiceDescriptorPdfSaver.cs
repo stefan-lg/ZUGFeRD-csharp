@@ -289,7 +289,7 @@ namespace s2industries.ZUGFeRD.PDF
             outputDocument.Internals.Catalog.Elements.Add("/OutputIntents", outputIntentsArray);
             outputDocument.Info.Creator = "S2 Industries";
 
-            _EmbedFonts(outputDocument);
+            //_EmbedFonts(outputDocument);
 
             MemoryStream memoryStream = new MemoryStream();
             try
