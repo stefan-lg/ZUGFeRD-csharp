@@ -35,7 +35,7 @@ using SkiaSharp;
 
 namespace s2industries.ZUGFeRD.PDF
 {
-    internal class InvoiceDescriptorPdfSaver
+    public class InvoiceDescriptorPdfSaver
     {
         internal static async Task SaveAsync(Stream targetStream, ZUGFeRDVersion version, Profile profile, ZUGFeRDFormats format, Stream pdfSourceStream, InvoiceDescriptor descriptor, string password = null)
         {
@@ -82,7 +82,7 @@ namespace s2industries.ZUGFeRD.PDF
         } // !SaveAsync()
 
 
-        private static Stream _CreateFacturXStream(Stream pdfStream, Stream xmlStream, ZUGFeRDVersion version, Profile profile, string invoiceFilename, string documentTitle = null, string documentDescription = null, string password = null)
+        protected static Stream _CreateFacturXStream(Stream pdfStream, Stream xmlStream, ZUGFeRDVersion version, Profile profile, string invoiceFilename, string documentTitle = null, string documentDescription = null, string password = null)
         {
             if (pdfStream == null)
             {
@@ -424,7 +424,7 @@ namespace s2industries.ZUGFeRD.PDF
         } // !_ExtractFontValues()
 
 
-        private static string _DetermineFilenameBasedOnVersionAndProfile(ZUGFeRDVersion version, Profile profile)
+        protected static string _DetermineFilenameBasedOnVersionAndProfile(ZUGFeRDVersion version, Profile profile)
         {
             if (version == ZUGFeRDVersion.Version1)
             {
